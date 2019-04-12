@@ -3,9 +3,9 @@ public class Aluno {
 	private String nome;
 	private String cpf;
 	private String identificador;
-	private String disciplina;
+	private Disciplina disciplina;
 	
-	public Aluno(String nome, String cpf, String identificador, String disciplina)
+	public Aluno(String nome, String cpf, String identificador, Disciplina disciplina)
 	{
 		this.nome = nome;
 		this.cpf = cpf;
@@ -31,10 +31,15 @@ public class Aluno {
 	public void setIdentificador(String identificador) {
 		this.identificador = identificador;
 	}
-	public String getDisciplina() {
+	public Disciplina getDisciplina() {
 		return disciplina;
 	}
-	public void setDisciplina(String disciplina) {
+	public void setDisciplina(Disciplina disciplina) {
 		this.disciplina = disciplina;
+	}
+	
+	@Override
+	public String toString() {
+		return this.identificador + " - " + this.nome;
 	}
 }
