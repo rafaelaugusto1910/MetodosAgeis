@@ -5,6 +5,15 @@ public class ControleDisciplinas {
 	
 	public static Scanner scan = new Scanner(System.in);
 	public static ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
+
+	public static ArrayList<Professor> professores = new ArrayList<Professor>() {
+		{
+			add(new Professor(1, "Pedro"));
+			add(new Professor(2, "Jose"));
+			add(new Coordenador(3, "Maria"));
+		}
+	};
+	
 	
 	public static Disciplina buscarDisciplina(String codigo) {
 		for(Disciplina disciplina : disciplinas)
@@ -23,11 +32,54 @@ public class ControleDisciplinas {
 		System.out.println("");
 	}
 	
+	public static boolean verificarProfessor() {
+		System.out.println("Digite seu código de professor: ");
+		int codigo = scan.nextInt();
+		
+		for(Professor professor : professores) {
+			if (professor.getCodigo() == codigo) {
+				scan.nextLine();
+				return true;
+			}
+		}
+		
+		scan.nextLine();
+		return false;
+	}
+	
+	public static boolean verificarCoordenador() {
+		System.out.println("Digite seu código de coordenador: ");
+		int codigo = scan.nextInt();
+		
+		for(Professor professor : professores) {
+			
+			if (professor.getCodigo() == codigo && professor instanceof Coordenador) {				
+				scan.nextLine();
+				return true;
+			}
+		}
+		scan.nextLine();
+		return false;
+	}
+	
 	public static void listarTodasInscricoes() {
+		
+		if (!verificarCoordenador())
+		{
+			System.out.println("Você não está cadastrado como um coordenador!");
+			return;
+		}
+		
 		for(Disciplina disciplina : disciplinas) {
 			System.out.println("------------ " + disciplina.toString() + " -----------" );
 			for(Aluno aluno : disciplina.getInscritos()) {
-				System.out.println(aluno.toString());
+				System.out.println("INSCRITO -- " + aluno.toString());
+			}
+			for(Aluno aluno : disciplina.getSelecionados()) {
+				System.out.println("SELECIONADO -- " + aluno.toString());
+			}
+			for(Aluno aluno : disciplina.getMatriculados()) {
+				System.out.println("MATRICULADO -- " + aluno.toString());
 			}
 			System.out.println("");
 		}
@@ -35,7 +87,7 @@ public class ControleDisciplinas {
 		System.out.println("");
 	}
 	
-	public static void listarInscricoesParaSelecao(String codigoDisciplina) {
+	public static void listarParaSelecao(String codigoDisciplina) {
 		Disciplina disciplinaEscolhida = buscarDisciplina(codigoDisciplina);
 		
 		if (disciplinaEscolhida == null) {
@@ -43,6 +95,7 @@ public class ControleDisciplinas {
 			return;
 		}
 		
+		System.out.println("--------- Alunos Inscritos ----------");
 		for(Aluno aluno : disciplinaEscolhida.getInscritos()) {
 			System.out.println(aluno.toString());
 		}
@@ -50,7 +103,45 @@ public class ControleDisciplinas {
 		System.out.println("");
 	}
 	
+	public static void listarParaMatricula(String codigoDisciplina) {
+		Disciplina disciplinaEscolhida = buscarDisciplina(codigoDisciplina);
+		
+		if (disciplinaEscolhida == null) {
+			System.out.println("Disciplina não encontrada! Digite o código novamente..");
+			return;
+		}
+		
+		System.out.println("--------- Alunos Selecionados ----------");
+		for(Aluno aluno : disciplinaEscolhida.getSelecionados()) {
+			System.out.println(aluno.toString());
+		}
+		
+		System.out.println("");
+	}
+	
+	public static void listarMatriculados(String codigoDisciplina) {
+		Disciplina disciplinaEscolhida = buscarDisciplina(codigoDisciplina);
+		
+		if (disciplinaEscolhida == null) {
+			System.out.println("Disciplina não encontrada! Digite o código novamente..");
+			return;
+		}
+		
+		System.out.println("--------- Alunos Matriculados ----------");
+		for(Aluno aluno : disciplinaEscolhida.getMatriculados()) {
+			System.out.println(aluno.toString());
+		}
+		
+		System.out.println("");
+	}
+	
 	public static void selecionarAlunos() {
+		
+		if (!verificarProfessor()) {
+			System.out.println("Você não está cadastrado como um professor!");
+			return;
+		}
+		
 		listarDisciplinas();
 		Disciplina disciplina = null;
 		
@@ -59,7 +150,48 @@ public class ControleDisciplinas {
 			String codigo = scan.nextLine();
 			
 			disciplina = buscarDisciplina(codigo);
-			listarInscricoesParaSelecao(codigo);			
+			listarParaSelecao(codigo);
+			
+			System.out.println("Por favor, digite os identificadores dos alunos selecionados, separados por ponto e vírgula (;)");
+			String identificadores = scan.nextLine();
+			String[] listaIdentificadores = identificadores.split(";");
+			
+			for(String identificador : listaIdentificadores) {
+				disciplina.selecionarAluno(identificador);
+			}
+			
+			listarParaMatricula(disciplina.getCodigo());
+			
+		} while (disciplina == null);
+	}
+	
+	public static void matricularAlunos() {
+
+		if (!verificarCoordenador()) {
+			System.out.println("Você não está cadastrado como um coordenador!");
+			return;
+		}
+		
+		listarDisciplinas();
+		Disciplina disciplina = null;
+		
+		do {
+			System.out.println("Caro Professor, digite o código da sua disciplina: ");
+			String codigo = scan.nextLine();
+			
+			disciplina = buscarDisciplina(codigo);
+			listarParaMatricula(codigo);
+			
+			System.out.println("Por favor, digite os identificadores dos alunos matriculados, separados por ponto e vírgula (;)");
+			String identificadores = scan.nextLine();
+			String[] listaIdentificadores = identificadores.split(";");
+			
+			for(String identificador : listaIdentificadores) {
+				disciplina.matricularAluno(identificador);
+			}
+			
+			listarMatriculados(disciplina.getCodigo());
+			
 		} while (disciplina == null);
 	}
 	

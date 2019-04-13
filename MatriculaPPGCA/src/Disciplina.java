@@ -68,7 +68,7 @@ public class Disciplina {
 			}
 		}
 				
-		if (alunoInscrito != null) return false;
+		if (alunoInscrito == null) return false;
 		
 		alunosSelecionados.add(alunoInscrito);
 		alunosInscritos.remove(alunoInscrito);
@@ -86,7 +86,7 @@ public class Disciplina {
 			}
 		}
 		
-		if (alunoSelecionado != null) return false;
+		if (alunoSelecionado == null) return false;
 		
 		alunosMatriculados.add(alunoSelecionado);
 		alunosSelecionados.remove(alunoSelecionado);

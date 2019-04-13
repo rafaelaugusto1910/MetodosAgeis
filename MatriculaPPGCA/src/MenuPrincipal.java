@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuPrincipal {
+	
 	public static void executar() {
 		ControleDisciplinas.realizarCargaInicial();
 		
@@ -23,6 +25,7 @@ public class MenuPrincipal {
 				case 1: ControleAlunos.exibirFormularioInscricao(); break;
 				case 2: ControleDisciplinas.listarTodasInscricoes(); break;
 				case 3: ControleDisciplinas.selecionarAlunos(); break;
+				case 4: ControleDisciplinas.matricularAlunos(); break;
 				default: opcao = 0; break;
 			}
 		}

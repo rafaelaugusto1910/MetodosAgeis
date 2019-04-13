@@ -28,6 +28,7 @@ public class ControleAlunos {
 		String identificador = scan.nextLine();
 		
 		Disciplina disciplina = null;
+		ControleDisciplinas.listarDisciplinas();
 		do {
 			System.out.println("Digite o codigo da disciplina: ");
 			String codigoDisciplina = scan.nextLine();
