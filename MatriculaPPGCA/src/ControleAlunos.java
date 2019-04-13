@@ -21,6 +21,9 @@ public class ControleAlunos {
 		System.out.println("Digite o nome do aluno: ");
 		String nome = scan.nextLine();
 		
+		System.out.println("Digite o e-mail do aluno: ");
+		String email = scan.nextLine();
+		
 		System.out.println("Digite o cpf do aluno: ");
 		String cpf = scan.nextLine();
 		
@@ -40,7 +43,7 @@ public class ControleAlunos {
 			
 		} while (disciplina == null);
 		
-		Aluno novoAluno = new Aluno(nome, cpf, identificador, disciplina);
+		Aluno novoAluno = new Aluno(nome, cpf, identificador, email, disciplina);
 		alunos.add(novoAluno);		
 		disciplina.inscreverAluno(novoAluno);
 		

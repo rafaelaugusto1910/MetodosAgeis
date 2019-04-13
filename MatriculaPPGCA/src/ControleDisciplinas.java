@@ -176,7 +176,7 @@ public class ControleDisciplinas {
 		Disciplina disciplina = null;
 		
 		do {
-			System.out.println("Caro Professor, digite o código da sua disciplina: ");
+			System.out.println("Caro Coordenador, digite o código da disciplina: ");
 			String codigo = scan.nextLine();
 			
 			disciplina = buscarDisciplina(codigo);
@@ -193,6 +193,32 @@ public class ControleDisciplinas {
 			listarMatriculados(disciplina.getCodigo());
 			
 		} while (disciplina == null);
+	}
+	
+	public static void informarAlunos() {
+		if (!verificarCoordenador())
+		{
+			System.out.println("Você não está cadastrado como um coordenador!");
+			return;
+		}
+		
+		System.out.println("---------- Enviando e-mails ------------");
+		enviarEmailMatriculados();
+		System.out.println("");
+		System.out.println("Alunos informados!!");
+	}
+	
+	public static void enviarEmailMatriculados()
+	{
+		ArrayList<Aluno> alunosMatriculados = new ArrayList<Aluno>();
+		for(Disciplina disciplina : disciplinas)
+		{
+			alunosMatriculados.addAll(disciplina.getMatriculados());
+		}
+		for(Aluno aluno : alunosMatriculados)
+		{
+			System.out.println("E-mail enviado ao aluno " + aluno.getNome() + " no endereço " + aluno.getEmail());
+		}
 	}
 	
 	public static void realizarCargaInicial() {

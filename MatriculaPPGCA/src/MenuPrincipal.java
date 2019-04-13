@@ -26,6 +26,7 @@ public class MenuPrincipal {
 				case 2: ControleDisciplinas.listarTodasInscricoes(); break;
 				case 3: ControleDisciplinas.selecionarAlunos(); break;
 				case 4: ControleDisciplinas.matricularAlunos(); break;
+				case 5: ControleDisciplinas.informarAlunos(); break;
 				default: opcao = 0; break;
 			}
 		}
